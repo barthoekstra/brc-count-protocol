@@ -1,0 +1,38 @@
+---
+title: "Sunrise/Sunset Times"
+author: "Bart Hoekstra"
+date: "7/12/2021"
+output: html_document
+---
+
+## Sunrise/Sunset Times
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(suncalc)
+season_start <- "2021-08-12"
+season_end <- "2021-11-21"
+coords <- c(41.6843098, 41.7303446) # Lat, Lon
+tz <- "Asia/Tbilisi"
+```
+
+```{r}
+season_dates <- seq(as.Date(season_start), as.Date(season_end), by= "days" )
+season_suntimes <- getSunlightTimes(date = season_dates, lat = coords[1], lon = coords[2], keep = c("sunrise", "sunset"), tz = tz)
+```
+
+```{r}
+season_suntimes %>%
+  select(date, sunrise, sunset) %>%
+  mutate(date = strftime(date, format = "%d-%m-%Y"),
+         sunrise = strftime(sunrise, format = "%H:%M", tz = tz),
+         sunset = strftime(sunset, format = "%H:%M", tz = tz)) %>%
+  identity() -> suntimes
+suntimes
+```
+
+```{r}
+write_csv(suntimes, file = paste0("tables/sunrise-sunset-", year(season_start), ".csv"))
+```
+
