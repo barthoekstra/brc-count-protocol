@@ -12,7 +12,7 @@ library(tidyverse)
 library(lubridate)
 library(suncalc)
 season_start <- "2021-08-12"
-season_end <- "2021-11-21"
+season_end <- "2021-10-21"
 coords <- c(41.6843098, 41.7303446) # Lat, Lon
 tz <- "Asia/Tbilisi"
 ```
